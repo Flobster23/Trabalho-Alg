@@ -140,7 +140,6 @@ int main(){
                             num2++;
                         }
                     }
-                    
                     if(l+1 >= 0 && l < D-1){
                         if(mina[l+1][c] == 'D'){
                             num1++;
@@ -183,6 +182,45 @@ int main(){
                     if(num2 > 0){
                         cout << "e este lugar é perigoso." << endl;
                     }
+                    break;
+                
+                case 'X':
+                    num1 = rand() % 3;
+                    switch(num1){
+                        case 0:
+                            cout << "Você pisou na areia movediça e perdeu 8 quilates tentando sair." << endl;
+                            placar[i] -= 8;
+                            break;
+                        case 1:
+                            cout << "Você encontrou um pirata, ele está te cobrando 5 quilates, mas você tem a escolha de enfrenta-lo numa batalha para não precisar pagar nada, mas cuidado, se você perder a batalha, ele roubará 10 quilates." << endl;
+                            cout << "Quer enfrenta-lo? (apenas S ou N)." << endl;
+                            cin >> escolha;
+                            if(escolha == 'S'){
+                                num2 = rand() % 2;
+                                if(num2 == 0){
+                                    cout << "PARABÉNS! Você venceu a batalha com o pirata e não perdeu nada." << endl;
+                                }else{
+                                    cout << "Que pena, você perdeu a batalha com o pirata e perdeu 10 quilates :(" << endl;
+                                    placar[i] -= 10;
+                                }
+                            }else{
+                                placar[i] -= 5;
+                            }
+                            break;
+                        case 2:
+                            cout << "Os outros jogadores armaram para você e te roubaram, cada jogador te roubou 5 quilates" << endl;
+                            for(j = 1; j < nJogadores; j++){
+                                if (jogadores[j] != jogadores[i]){
+                                    placar[j] += 5;
+                                    placar[i] -= 5;
+                                }
+                            }
+                            break;
+                    }
+                
+                case '0':
+                    cout << "Você não encontrou nada aqui." << endl;
+                    break;
             }
         }
         rTotais = rTotais - nJogadores;
