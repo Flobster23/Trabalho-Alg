@@ -22,15 +22,14 @@ void imprimirMinaE(){
 }
 
 int main(){
-    int i, j, nJogadores, rTotais = D * D, rJogador, pistas, armadi, dima, num1, num2, numA, num3; 
+    int i, j, rTotais = D * D, pistas, nJogadores, armadi, dima, num1, num2, numA, num3; 
     char P1 = 65, P2 = 49, escolha;
-    string quadro;
+    string quadro, aux;
     cout << "Bem vindos a mina de diamantes do antigo imperador Skar! Vocês foram os escolhidos para encontrar os tesouros perdidos, prestem muita atenção nas pistas e cuidado com as armadilhas, boa sorte." << endl;
     cout << endl << "Escolha o número de jogadores (de 2 a 4):" << endl;
     cin >> nJogadores;
     int placar[nJogadores + 1] = {0};
     string jogadores[nJogadores + 1];
-    rJogador = rTotais / nJogadores;
     cout << endl;
     srand(time(NULL));
     pistas = ceil(0.05 * rTotais);
@@ -80,35 +79,32 @@ int main(){
         }
     }
     
-    for(int l = 0; l < D; l++){
-        for(int c = 0; c < D; c++){
-            cout << setw(3) << mina[l][c];
-        }
-    cout << endl;
-    }
-    
     cin.ignore();
 
     for(i = 1; i <= nJogadores; i++){
         cout << "Identifique-se, jogador " << i << ":" << endl;
         getline(cin, jogadores[i]);
+        cout << endl;
     }
     
     imprimirMinaE();
     
     while(rTotais > 0){
+        cout << endl;
         for(i = 1; i <= nJogadores; i++){
             cout << "Escolha um quadro, " << jogadores[i] << "." << endl;
             cin >> quadro;
+            cout << endl;
             l = (int) quadro[0] - 65;
             c = (int) quadro[1] - 49;
             minaE[l][c] = mina[l][c];
             imprimirMinaE();
+            cout << endl;
             switch(mina[l][c]){
                 case 'D':
                     num1 = (rand() % 10) + 1;
                     cout << "Parabéns, você achou um diamante de " << num1 << " quilates!" << endl;
-                    num2 = rand() % 10;
+                    num2 = rand() % 12;
                     if(num2 == 5){
                         cout << endl;
                         cout << "Assim que você pegou o diamante nas mãos, um mago apareceu, ele tem uma proposta para te oferecer:" << endl;
@@ -117,11 +113,12 @@ int main(){
                         cin >> escolha;
                         if(escolha == 'S'){
                             num3 = rand() % 2;
-                            if(num3 = 0){
+                            if(num3 == 0){
                                 num1 *= 2;
                                 cout << "Consegui duplicar seu diamante, você está com sorte." << endl;
                             }else{
                                 cout << "Putz! A magia deu errado, você sentou na graxa veia!" << endl;
+                                num1 = 0;
                             }
                         }
                     }
@@ -217,13 +214,35 @@ int main(){
                             }
                             break;
                     }
+                    break;
                 
                 case '0':
                     cout << "Você não encontrou nada aqui." << endl;
                     break;
             }
+            cout << endl;
+        }
+        cout << "Pontuação parcial:" << endl;
+        for(i = 1; i <= nJogadores; i++){
+            cout << jogadores[i] << ": " << placar[i] << " quilates" << endl;
         }
         rTotais = rTotais - nJogadores;
+    }
+    
+    for(i = 1; i <= nJogadores; i++){
+        for(j = 2; j <= nJogadores; j++){
+            if(placar[i] > placar[j]){
+                aux = jogadores[i];
+                jogadores[i] = jogadores[j];
+                jogadores[j] = aux;
+            }
+        }
+    }
+    
+    cout << endl << "RANKING FINAL:" << endl;
+    
+    for(i = nJogadores; i <= 1; i++){
+        cout << i << "° lugar: " << jogadores[i] << endl;
     }
     
     return 0;
