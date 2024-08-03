@@ -22,9 +22,9 @@ void imprimirMinaE(){
 }
 
 int main(){
-    int i, j, rTotais = D * D, pistas, nJogadores, armadi, dima, num1, num2, numA, num3; 
+    int i, j, rTotais = D * D, pistas, nJogadores, armadi, dima, num1, num2, numA, num3, aux2; 
     char P1 = 65, P2 = 49, escolha;
-    string quadro, aux;
+    string quadro, aux1;
     cout << "Bem vindos a mina de diamantes do antigo imperador Skar! Vocês foram os escolhidos para encontrar os tesouros perdidos, prestem muita atenção nas pistas e cuidado com as armadilhas, boa sorte." << endl;
     cout << endl << "Escolha o número de jogadores (de 2 a 4):" << endl;
     cin >> nJogadores;
@@ -195,7 +195,7 @@ int main(){
                             if(escolha == 'S'){
                                 num2 = rand() % 2;
                                 if(num2 == 0){
-                                    cout << "PARABÉNS! Você venceu a batalha com o pirata e não perdeu nada." << endl;
+                                    cout << "Parabéns! Você venceu a batalha com o pirata e não perdeu nada." << endl;
                                 }else{
                                     cout << "Que pena, você perdeu a batalha com o pirata e perdeu 10 quilates :(" << endl;
                                     placar[i] -= 10;
@@ -230,20 +230,25 @@ int main(){
     }
     
     for(i = 1; i <= nJogadores; i++){
-        for(j = 2; j <= nJogadores; j++){
-            if(placar[i] > placar[j]){
-                aux = jogadores[i];
+        for(j = i + 1; j <= nJogadores; j++){
+            if(placar[i] <= placar[j]){
+                aux1 = jogadores[i];
                 jogadores[i] = jogadores[j];
-                jogadores[j] = aux;
+                jogadores[j] = aux1;
+                aux2 = placar[i];
+                placar[i] = placar[j];
+                placar[j] = aux2;
             }
         }
     }
     
     cout << endl << "RANKING FINAL:" << endl;
     
-    for(i = nJogadores; i <= 1; i++){
+    for(i = 1; i <= nJogadores; i++){
         cout << i << "° lugar: " << jogadores[i] << endl;
     }
+    
+    cout << endl << "Parabéns " << jogadores[1] << "!!" << endl;
     
     return 0;
     
